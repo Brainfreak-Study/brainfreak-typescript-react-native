@@ -2,5 +2,12 @@
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "strict": true
-  }
+  },
+  "include": [
+    //allow svg files
+    "./custom.d.ts",
+    "**/*.ts", "**/*.tsx"
+
+  ]
 }
+ 
