@@ -12,67 +12,90 @@ import {
 import LockIcon from "../../assets/images/icons/lock.svg";
 import EyeIcon from "../../assets/images/icons/eye.svg";
 import EyeSlashIcon from "../../assets/images/icons/eye-slash.svg";
+import { PoppinsRegularText } from "../StyledText";
 
 interface InputProps extends TextInputProps {
     icon?: React.ReactNode;
+    error?: any;
 }
 
-function StyledTextInput({ icon, secureTextEntry, ...props }: InputProps) {
+function StyledTextInput({
+    icon,
+    error,
+    secureTextEntry,
+    ...props
+}: InputProps) {
     const colorScheme = useColorScheme();
     const [showPassword, setShowPassword] = useState(false);
 
     return (
-        <View
-            style={[
-                styles.textInputContainer,
-                colorScheme === "dark"
-                    ? styles.textInputContainerDark
-                    : styles.textInputContainerLight,
-            ]}
-        >
-            {secureTextEntry ? (
-                <LockIcon width={20} height={20} color="#828895" />
-            ) : (
-                icon
-            )}
-
-            <TextInput
+        <View style={styles.container}>
+            <View
                 style={[
-                    styles.input,
+                    styles.textInputContainer,
                     colorScheme === "dark"
-                        ? styles.inputDark
-                        : styles.inputLight,
+                        ? styles.textInputContainerDark
+                        : styles.textInputContainerLight,
                 ]}
-                placeholderTextColor={`#828895`}
-                secureTextEntry={secureTextEntry && !showPassword}
-                {...props}
-            />
+            >
+                {secureTextEntry ? (
+                    <LockIcon width={20} height={20} color="#828895" />
+                ) : (
+                    icon
+                )}
 
-            {secureTextEntry && (
-                <TouchableOpacity
-                    style={{ paddingLeft: 10 }}
-                    onPress={() => setShowPassword(!showPassword)}
-                >
-                    {showPassword ? (
-                        <EyeSlashIcon width={20} height={20} color="#828895" />
-                    ) : (
-                        <EyeIcon width={20} height={20} color="#828895" />
-                    )}
-                </TouchableOpacity>
+                <TextInput
+                    style={[
+                        styles.input,
+                        colorScheme === "dark"
+                            ? styles.inputDark
+                            : styles.inputLight,
+                    ]}
+                    placeholderTextColor={`#828895`}
+                    secureTextEntry={secureTextEntry && !showPassword}
+                    {...props}
+                />
+
+                {secureTextEntry && (
+                    <TouchableOpacity
+                        style={{ paddingLeft: 10 }}
+                        onPress={() => setShowPassword(!showPassword)}
+                    >
+                        {showPassword ? (
+                            <EyeSlashIcon
+                                width={20}
+                                height={20}
+                                color="#828895"
+                            />
+                        ) : (
+                            <EyeIcon width={20} height={20} color="#828895" />
+                        )}
+                    </TouchableOpacity>
+                )}
+            </View>
+
+            {error && (
+                <PoppinsRegularText style={styles.errorText}>
+                    {error}
+                </PoppinsRegularText>
             )}
         </View>
     );
 }
 
 const styles = StyleSheet.create({
+    container: {
+        marginVertical: 10,
+    },
+
     textInputContainer: {
         paddingRight: 20,
         flexDirection: "row",
         alignItems: "center",
         borderBottomWidth: 1,
-        marginVertical: 12,
         borderRadius: 10,
         borderColor: "#ccc",
+        marginVertical: 2,
     },
     textInputContainerDark: {
         borderColor: "#242424",
@@ -92,6 +115,11 @@ const styles = StyleSheet.create({
     },
     inputLight: {
         color: "#242424",
+    },
+    errorText: {
+        fontSize: 12,
+        color: "#ff0000",
+        fontFamily: "poppins-regular",
     },
 });
 

@@ -1,137 +1,168 @@
-import {
-    Image,
-    Platform,
-    ScrollView,
-    StyleSheet,
-    TextInput,
-    TouchableOpacity,
-} from "react-native";
+import { Image, Platform, StyleSheet, TouchableOpacity } from "react-native";
 import { useColorScheme } from "react-native";
+import { useFormik } from "formik";
 import { PoppinsRegularText } from "../../components/StyledText";
-import { Text, View } from "../../components/Themed";
+import {
+    KeyboardAvoidingView,
+    SafeAreaView,
+    ScrollView,
+    Text,
+    View,
+} from "../../components/Themed";
 import { RootTabScreenProps } from "../../types";
 
 //Icons Import
-import LockIcon from "../../assets/images/icons/lock.svg";
 import ProfileIcon from "../../assets/images/icons/profile.svg";
 import StyledTextInput from "../../components/inputs/StyledInput";
 import SocialIconsGrid from "../../components/socials/SocialIconsGrid";
+import Button from "../../components/buttons/Button";
 
 export default function RegisterScreen({
     navigation,
 }: RootTabScreenProps<"Login">) {
     const colorScheme = useColorScheme();
+
+    const formik = useFormik({
+        initialValues: {
+            email: "",
+            password: "",
+        },
+        onSubmit: (values) => {
+            alert(JSON.stringify(values, null, 2));
+        },
+    });
+
     return (
-        <ScrollView
-            style={{
-                backgroundColor: colorScheme === "dark" ? "#000" : "#fff",
-            }}
-        >
-            <View
-                style={
-                    colorScheme === "dark"
-                        ? styles.containerDark
-                        : styles.container
-                }
-            >
-                <Image
-                    source={require("../../assets/images/illustrations/login.png")}
-                    style={styles.welcomeImage}
-                />
-                <Text style={styles.title} lightColor="#000" darkColor="#fff">
-                    Welcome back!
-                </Text>
-
-                <StyledTextInput
-                    icon={
-                        <ProfileIcon width={20} height={20} color="#828895" />
-                    }
-                    placeholder="Email or username"
-                    placeholderTextColor={`#828895`}
-                />
-
-                <StyledTextInput
-                    placeholder="Password"
-                    placeholderTextColor={`#828895`}
-                    secureTextEntry={true}
-                />
-
-                <TouchableOpacity style={styles.button}>
-                    <PoppinsRegularText style={styles.buttonText}>
-                        Login
-                    </PoppinsRegularText>
-                </TouchableOpacity>
-
-                <View style={styles.footer}>
-                    <PoppinsRegularText style={styles.footerText}>
-                        Don't have an account?
-                    </PoppinsRegularText>
-                    <TouchableOpacity
-                        onPress={() => navigation.navigate("Register")}
+        <SafeAreaView lightColor="#fff" darkColor="#000">
+            <KeyboardAvoidingView>
+                <ScrollView lightColor="#fff" darkColor="#000">
+                    <View
+                        style={[
+                            styles.container,
+                            colorScheme === "dark"
+                                ? styles.containerDark
+                                : styles.containerLight,
+                        ]}
                     >
-                        <PoppinsRegularText style={styles.footerLink}>
-                            Register
-                        </PoppinsRegularText>
-                    </TouchableOpacity>
-                </View>
+                        <Image
+                            source={require("../../assets/images/illustrations/login.png")}
+                            style={styles.welcomeImage}
+                        />
+                        <Text
+                            style={styles.title}
+                            lightColor="#000"
+                            darkColor="#fff"
+                        >
+                            Welcome back!
+                        </Text>
 
-                <View style={styles.socialMediaLogin}>
-                    <View style={styles.sepratorContainer}>
-                        <View
-                            style={[
-                                styles.seprator,
-                                colorScheme === "dark"
-                                    ? styles.sepratorDark
-                                    : styles.sepratorLight,
-                            ]}
+                        <StyledTextInput
+                            icon={
+                                <ProfileIcon
+                                    width={20}
+                                    height={20}
+                                    color="#828895"
+                                />
+                            }
+                            placeholder="Email or username"
+                            placeholderTextColor={`#828895`}
+                            onChangeText={formik.handleChange("email")}
+                            value={formik.values.email}
+                            autoCapitalize="none"
+                            onBlur={formik.handleBlur("email")}
                         />
-                        <PoppinsRegularText style={styles.socialMediaLoginText}>
-                            Or login with
-                        </PoppinsRegularText>
-                        <View
-                            style={[
-                                styles.seprator,
-                                colorScheme === "dark"
-                                    ? styles.sepratorDark
-                                    : styles.sepratorLight,
-                            ]}
+
+                        <StyledTextInput
+                            placeholder="Password"
+                            placeholderTextColor={`#828895`}
+                            secureTextEntry={true}
+                            autoCapitalize="none"
+                            onChangeText={formik.handleChange("password")}
+                            value={formik.values.password}
+                            onBlur={formik.handleBlur("password")}
                         />
+
+                        <Button
+                            text="Login"
+                            onPress={() => formik.handleSubmit()}
+                        />
+
+                        <View style={styles.footer}>
+                            <PoppinsRegularText style={styles.footerText}>
+                                Don't have an account?
+                            </PoppinsRegularText>
+                            <TouchableOpacity
+                                onPress={() => navigation.navigate("Register")}
+                            >
+                                <PoppinsRegularText style={styles.footerLink}>
+                                    Register
+                                </PoppinsRegularText>
+                            </TouchableOpacity>
+                        </View>
+
+                        <View style={styles.socialMediaLogin}>
+                            <View style={styles.sepratorContainer}>
+                                <View
+                                    style={[
+                                        styles.seprator,
+                                        colorScheme === "dark"
+                                            ? styles.sepratorDark
+                                            : styles.sepratorLight,
+                                    ]}
+                                />
+                                <PoppinsRegularText
+                                    style={styles.socialMediaLoginText}
+                                >
+                                    Or login with
+                                </PoppinsRegularText>
+                                <View
+                                    style={[
+                                        styles.seprator,
+                                        colorScheme === "dark"
+                                            ? styles.sepratorDark
+                                            : styles.sepratorLight,
+                                    ]}
+                                />
+                            </View>
+                            <SocialIconsGrid style={{ marginTop: 10 }} />
+                        </View>
+
+                        <View style={styles.footer}>
+                            <PoppinsRegularText style={styles.footerText}>
+                                By continuing, you agree to our
+                            </PoppinsRegularText>
+                            <TouchableOpacity>
+                                <PoppinsRegularText style={styles.footerLink}>
+                                    Terms of Service
+                                </PoppinsRegularText>
+                            </TouchableOpacity>
+                            <PoppinsRegularText style={styles.footerText}>
+                                and
+                            </PoppinsRegularText>
+                            <TouchableOpacity>
+                                <PoppinsRegularText style={styles.footerLink}>
+                                    Privacy Policy
+                                </PoppinsRegularText>
+                            </TouchableOpacity>
+                        </View>
                     </View>
-                    <SocialIconsGrid style={{ marginTop: 10 }} />
-                </View>
-
-                <View style={styles.footer}>
-                    <PoppinsRegularText style={styles.footerText}>
-                        By continuing, you agree to our
-                    </PoppinsRegularText>
-                    <TouchableOpacity>
-                        <PoppinsRegularText style={styles.footerLink}>
-                            Terms of Service
-                        </PoppinsRegularText>
-                    </TouchableOpacity>
-                    <PoppinsRegularText style={styles.footerText}>
-                        and
-                    </PoppinsRegularText>
-                    <TouchableOpacity>
-                        <PoppinsRegularText style={styles.footerLink}>
-                            Privacy Policy
-                        </PoppinsRegularText>
-                    </TouchableOpacity>
-                </View>
-            </View>
-        </ScrollView>
+                </ScrollView>
+            </KeyboardAvoidingView>
+        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: "#fff",
         padding: 20,
     },
     containerDark: {
         backgroundColor: "#000",
-        padding: 20,
     },
+    containerLight: {
+        backgroundColor: "#fff",
+    },
+
     welcomeImage: {
         width: "100%",
         height: 300,
@@ -201,7 +232,6 @@ const styles = StyleSheet.create({
     socialMediaIconLight: {
         borderColor: "#ccc",
     },
-
     sepratorContainer: {
         flexDirection: "row",
         alignItems: "center",

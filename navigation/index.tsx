@@ -16,8 +16,10 @@ import { ColorSchemeName, Pressable } from "react-native";
 
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
+import CreateAccountScreen from "../screens/auth-screens/CreateAccountScreen";
 import LoginScreen from "../screens/auth-screens/LoginScreen";
 import RegisterScreen from "../screens/auth-screens/RegisterScreen";
+import VerifyEmailScreen from "../screens/auth-screens/VerifyEmailScreen";
 import NotFoundScreen from "../screens/NotFoundScreen";
 
 import {
@@ -59,6 +61,16 @@ function AuthStackNavigator() {
             <Stack.Screen
                 name="Register"
                 component={RegisterScreen}
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name="VerifyEmail"
+                component={VerifyEmailScreen}
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name="CreateAccount"
+                component={CreateAccountScreen}
                 options={{ headerShown: false }}
             />
             <Stack.Screen
