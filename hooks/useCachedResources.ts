@@ -18,8 +18,10 @@ export default function useCachedResources() {
                     "space-mono": require("../assets/fonts/SpaceMono-Regular.ttf"),
                     //import all poppins fonts
                     "poppins-regular": require("../assets/fonts/Poppins/Poppins-Regular.ttf"),
+                    "poppins-semibold": require("../assets/fonts/Poppins/Poppins-SemiBold.ttf"),
                     "poppins-bold": require("../assets/fonts/Poppins/Poppins-Bold.ttf"),
                     "poppins-medium": require("../assets/fonts/Poppins/Poppins-Medium.ttf"),
+                    "poppins-italic": require("../assets/fonts/Poppins/Poppins-Italic.ttf"),
                 });
             } catch (e) {
                 // We might want to provide this error information to an error reporting service

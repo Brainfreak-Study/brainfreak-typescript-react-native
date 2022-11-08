@@ -7,11 +7,11 @@ import {
     useColorScheme,
     View,
 } from "react-native";
+import EyeIcon from "../icons/EyeIcon";
+import EyeSlashIcon from "../icons/EyeSlashIcon";
+import LockIcon from "../icons/LockIcon";
 
 //Icons Import
-import LockIcon from "../../assets/images/icons/lock.svg";
-import EyeIcon from "../../assets/images/icons/eye.svg";
-import EyeSlashIcon from "../../assets/images/icons/eye-slash.svg";
 import { PoppinsRegularText } from "../StyledText";
 
 interface InputProps extends TextInputProps {

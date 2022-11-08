@@ -7,6 +7,7 @@ import {
     TouchableOpacityProps,
     View,
 } from "react-native";
+import { BluePrimary50 } from "../../constants/colorScheme";
 import { PoppinsRegularText } from "../StyledText";
 
 interface ButtonProps extends TouchableOpacityProps {
@@ -28,7 +29,7 @@ export default Button;
 
 const styles = StyleSheet.create({
     button: {
-        backgroundColor: "#4d47c3",
+        backgroundColor: BluePrimary50,
         padding: 10,
         paddingTop: 15,
         paddingBottom: 15,

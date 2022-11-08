@@ -1,7 +1,6 @@
-import { Image, Platform, StyleSheet, TouchableOpacity } from "react-native";
+import { Image, StyleSheet, TouchableOpacity } from "react-native";
 import { useColorScheme } from "react-native";
 import { useFormik } from "formik";
-
 import { PoppinsRegularText } from "../../components/StyledText";
 import {
     KeyboardAvoidingView,
@@ -13,23 +12,39 @@ import {
 import { RootTabScreenProps } from "../../types";
 
 //Icons Import
-import ProfileIcon from "../../assets/images/icons/profile.svg";
 import StyledTextInput from "../../components/inputs/StyledInput";
 import SocialIconsGrid from "../../components/socials/SocialIconsGrid";
-import Seprator from "../../components/Seprator";
-import { EmailValidation } from "../../validations/registerValidation";
 import Button from "../../components/buttons/Button";
+import { connect } from "react-redux";
+import { setUser, removeUser } from "../../redux/slices/user";
+import { EmailValidation } from "../../validations/registerValidation";
+import Seprator from "../../components/Seprator";
+import ProfileIcon from "../../components/icons/ProfileIcon";
 
-export default function RegisterScreen({
+interface IConnectedDispatch {
+    setUserDispatch: typeof setUser;
+
+    removeUserDispatch: typeof removeUser;
+}
+
+function RegisterScreen({
     navigation,
-}: RootTabScreenProps<"Register">) {
+    setUserDispatch,
+    removeUserDispatch,
+}: RootTabScreenProps<"Register"> & IConnectedDispatch) {
     const colorScheme = useColorScheme();
 
     const formik = useFormik({
         initialValues: {
             email: "",
         },
-        onSubmit: (values) => {},
+        onSubmit: (values) => {
+            removeUserDispatch();
+            setUserDispatch({
+                email: values.email,
+            });
+            navigation.navigate("VerifyEmail");
+        },
         validationSchema: EmailValidation,
     });
     return (
@@ -102,7 +117,7 @@ export default function RegisterScreen({
 
                         <Button
                             text="Register"
-                            onPress={() => navigation.navigate("VerifyEmail")}
+                            onPress={() => formik.handleSubmit()}
                         />
 
                         <View style={styles.footer}>
@@ -204,3 +219,10 @@ const styles = StyleSheet.create({
         borderColor: "#ccc",
     },
 });
+
+const mapDispatchToProps = {
+    removeUserDispatch: removeUser,
+    setUserDispatch: setUser,
+};
+
+export default connect(null, mapDispatchToProps)(RegisterScreen);

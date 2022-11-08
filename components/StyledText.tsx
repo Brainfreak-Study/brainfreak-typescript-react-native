@@ -10,7 +10,10 @@ export function PoppinsRegularText(props: TextProps) {
     return (
         <Text
             {...props}
-            style={[props.style, { fontFamily: "poppins-regular" }]}
+            style={[
+                props.style,
+                { fontFamily: "poppins-regular", flexWrap: "wrap" },
+            ]}
         />
     );
 }

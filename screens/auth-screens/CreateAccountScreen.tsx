@@ -21,26 +21,50 @@ import {
     ScrollView,
 } from "../../components/Themed";
 import StyledTextInput from "../../components/inputs/StyledInput";
-import ProfileIcon from "../../assets/images/icons/profile.svg";
-import UsernameIcon from "../../assets/images/icons/security-user.svg";
 import { Avatar } from "../../components/avatar/Avatar";
+import ProfileIcon from "../../components/icons/ProfileIcon";
+import SecureUserIcon from "../../components/icons/SecureUserIcon";
+import { CreateAccountSchema } from "../../validations/createAccountValidation";
+import { RootState } from "../../redux/store";
+import { IUserState, removeUser, setUser } from "../../redux/slices/user";
+import { connect } from "react-redux";
 
-export default function CreateAccountScreen({
+interface IConnectedDispatch {
+    setUserDispatch: typeof setUser;
+    removeUserDispatch: typeof removeUser;
+}
+
+interface IConnectedState {
+    user: IUserState;
+}
+
+function CreateAccountScreen({
     navigation,
-}: RootTabScreenProps<"CreateAccount">) {
+    user,
+    setUserDispatch,
+}: RootTabScreenProps<"CreateAccount"> & IConnectedDispatch & IConnectedState) {
     const colorScheme = useColorScheme();
 
     const formik = useFormik({
         initialValues: {
             name: "",
             username: "",
-            email: "",
+            email: user?.email,
             password: "",
             confirmPassword: "",
         },
         onSubmit: (values) => {
-            alert(JSON.stringify(values, null, 2));
+            console.log(values);
+
+            setUserDispatch({
+                name: values.name,
+                username: values.username,
+                email: values.email,
+                isAuth: true,
+                role: "user",
+            });
         },
+        validationSchema: CreateAccountSchema,
     });
     const onAvatarChange = (image: any) => {
         console.log(image);
@@ -89,6 +113,7 @@ export default function CreateAccountScreen({
                                         marginTop: 20,
                                         borderColor: "#ccc",
                                         borderWidth: 2,
+                                        marginBottom: 4,
                                     }}
                                     onChange={onAvatarChange}
                                     source={require("../../assets/images/illustrations/login.png")}
@@ -107,10 +132,14 @@ export default function CreateAccountScreen({
                                     onChangeText={formik.handleChange("name")}
                                     value={formik.values.name}
                                     onBlur={formik.handleBlur("name")}
+                                    error={
+                                        formik.touched.name &&
+                                        formik.errors.name
+                                    }
                                 />
                                 <StyledTextInput
                                     icon={
-                                        <UsernameIcon
+                                        <SecureUserIcon
                                             width={20}
                                             height={20}
                                             color="#828895"
@@ -124,6 +153,10 @@ export default function CreateAccountScreen({
                                     )}
                                     value={formik.values.username}
                                     onBlur={formik.handleBlur("username")}
+                                    error={
+                                        formik.touched.username &&
+                                        formik.errors.username
+                                    }
                                 />
                                 <StyledTextInput
                                     placeholder="Password"
@@ -135,6 +168,10 @@ export default function CreateAccountScreen({
                                     )}
                                     value={formik.values.password}
                                     onBlur={formik.handleBlur("password")}
+                                    error={
+                                        formik.touched.password &&
+                                        formik.errors.password
+                                    }
                                 />
                                 <StyledTextInput
                                     placeholder="Confirm password"
@@ -148,11 +185,15 @@ export default function CreateAccountScreen({
                                     onBlur={formik.handleBlur(
                                         "confirmPassword"
                                     )}
+                                    error={
+                                        formik.touched.confirmPassword &&
+                                        formik.errors.confirmPassword
+                                    }
                                 />
 
                                 <Button
                                     text="Create Account"
-                                    onPress={() => {}}
+                                    onPress={() => formik.handleSubmit()}
                                 />
                             </Pressable>
                         </View>
@@ -221,3 +262,17 @@ const styles = StyleSheet.create({
         color: "#4d47c3",
     },
 });
+
+const mapStateToProps = (state: RootState): IConnectedState => ({
+    user: state.user,
+});
+
+const mapDispatchToProps = {
+    removeUserDispatch: removeUser,
+    setUserDispatch: setUser,
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(CreateAccountScreen);

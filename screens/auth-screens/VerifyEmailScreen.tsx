@@ -1,17 +1,14 @@
 import {
     Image,
     StyleSheet,
-    Text,
     useColorScheme,
     View,
     TouchableOpacity,
     Keyboard,
     Pressable,
-    Platform,
 } from "react-native";
 import React from "react";
 import { RootTabScreenProps } from "../../types";
-
 import {
     PoppinsBoldText,
     PoppinsRegularText,
@@ -24,35 +21,23 @@ import {
     SafeAreaView,
     ScrollView,
 } from "../../components/Themed";
+import { IUserState } from "../../redux/slices/user";
+import { RootState } from "../../redux/store";
+import { connect } from "react-redux";
+import ResendTimer from "../../components/texts/ResendTimer";
 
-export default function VerifyEmailScreen({
+interface IConnectedState {
+    user: IUserState;
+}
+
+function VerifyEmailScreen({
     navigation,
-}: RootTabScreenProps<"VerifyEmail">) {
+    user,
+}: RootTabScreenProps<"VerifyEmail"> & IConnectedState) {
     const colorScheme = useColorScheme();
-
     const [code, setCode] = React.useState("");
 
-    //create resend timer
-    const [resendTimer, setResendTimer] = React.useState(60);
-    const [resendTimerActive, setResendTimerActive] = React.useState(false);
-
-    const handleResend = () => {
-        setResendTimer(60);
-        setResendTimerActive(true);
-    };
-
-    React.useEffect(() => {
-        if (resendTimerActive) {
-            const timer = setTimeout(() => {
-                if (resendTimer > 0) {
-                    setResendTimer(resendTimer - 1);
-                } else {
-                    setResendTimerActive(false);
-                }
-            }, 1000);
-            return () => clearTimeout(timer);
-        }
-    }, [resendTimer, resendTimerActive]);
+    console.log({ user });
 
     return (
         <SafeAreaView
@@ -86,32 +71,31 @@ export default function VerifyEmailScreen({
                                     source={require("../../assets/images/illustrations/no-message.png")}
                                     style={styles.welcomeImage}
                                 />
-
                                 <PoppinsBoldText style={styles.title}>
                                     Verify Your Email
                                 </PoppinsBoldText>
-
                                 <PoppinsRegularText style={styles.text}>
                                     We have sent you an email with a
-                                    verification code. Please enter the code
-                                    below to verify your email.
+                                    verification code to{" "}
+                                    <PoppinsBoldText style={styles.text}>
+                                        {user.email}
+                                    </PoppinsBoldText>
                                 </PoppinsRegularText>
-
-                                <OTPInput />
-
                                 <TouchableOpacity
-                                    style={styles.resendButton}
-                                    onPress={handleResend}
+                                    onPress={() => navigation.goBack()}
                                 >
-                                    <PoppinsRegularText
-                                        style={styles.resendText}
+                                    <PoppinsBoldText
+                                        style={styles.textChangeEmail}
                                     >
-                                        {resendTimerActive
-                                            ? `Resend OTP in ${resendTimer} seconds`
-                                            : "Resend OTP"}
-                                    </PoppinsRegularText>
+                                        Edit Email
+                                    </PoppinsBoldText>
                                 </TouchableOpacity>
-
+                                <OTPInput />
+                                <ResendTimer
+                                    onPress={() =>
+                                        console.log("Resend Clicked")
+                                    }
+                                />
                                 <Button
                                     text="Verify"
                                     onPress={() => {
@@ -156,6 +140,11 @@ const styles = StyleSheet.create({
         textAlign: "center",
         marginTop: 20,
     },
+    textChangeEmail: {
+        fontSize: 14,
+        textAlign: "center",
+        color: "#3F51B5",
+    },
     OTPInputView: {
         width: "60%",
         height: 100,
@@ -180,11 +169,10 @@ const styles = StyleSheet.create({
     underlineStyleHighLighted: {
         borderColor: "#4d47c3",
     },
-    resendButton: {
-        alignSelf: "center",
-        marginTop: 20,
-    },
-    resendText: {
-        color: "#4d47c3",
-    },
 });
+
+const mapStateToProps = (state: RootState): IConnectedState => ({
+    user: state.user,
+});
+
+export default connect(mapStateToProps)(VerifyEmailScreen);

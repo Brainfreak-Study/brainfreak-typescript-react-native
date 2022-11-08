@@ -1,4 +1,4 @@
-import { Image, Platform, StyleSheet, TouchableOpacity } from "react-native";
+import { Image, StyleSheet, TouchableOpacity } from "react-native";
 import { useColorScheme } from "react-native";
 import { useFormik } from "formik";
 import { PoppinsRegularText } from "../../components/StyledText";
@@ -12,15 +12,49 @@ import {
 import { RootTabScreenProps } from "../../types";
 
 //Icons Import
-import ProfileIcon from "../../assets/images/icons/profile.svg";
 import StyledTextInput from "../../components/inputs/StyledInput";
 import SocialIconsGrid from "../../components/socials/SocialIconsGrid";
 import Button from "../../components/buttons/Button";
+import { connect } from "react-redux";
+import { setUser, IUserState, removeUser } from "../../redux/slices/user";
+import { RootState } from "../../redux/store";
+import ProfileIcon from "../../components/icons/ProfileIcon";
+import {
+    BluePrimary25,
+    BlueSecondary100,
+    BlueSecondary25,
+    BlueSecondary50,
+} from "../../constants/colorScheme";
 
-export default function RegisterScreen({
+interface IConnectedDispatch {
+    setUserDispatch: typeof setUser;
+    removeUserDispatch: typeof removeUser;
+}
+interface IConnectedState {
+    user: IUserState;
+}
+
+function LoginScreen({
     navigation,
-}: RootTabScreenProps<"Login">) {
+    setUserDispatch,
+    removeUserDispatch,
+    user,
+}: RootTabScreenProps<"Login"> & IConnectedDispatch & IConnectedState) {
     const colorScheme = useColorScheme();
+
+    const handleLogin = (values: any) => {
+        // setUser({
+        //     name: "John Dosse",
+        //     email: "test@gmail.com",
+        //     username: "johndoe",
+        //     role: "user",
+        //     expire_at: "2021-12-31",
+        //     token: "1234567890",
+        // });
+
+        removeUserDispatch();
+        console.log({ user });
+    };
 
     const formik = useFormik({
         initialValues: {
@@ -28,7 +62,7 @@ export default function RegisterScreen({
             password: "",
         },
         onSubmit: (values) => {
-            alert(JSON.stringify(values, null, 2));
+            handleLogin(values);
         },
     });
 
@@ -199,7 +233,7 @@ const styles = StyleSheet.create({
         color: "#828895",
     },
     footerLink: {
-        color: "#4d47c3",
+        color: BlueSecondary100,
         marginLeft: 5,
     },
     socialMediaLogin: {
@@ -248,3 +282,14 @@ const styles = StyleSheet.create({
         backgroundColor: "#ccc",
     },
 });
+
+const mapStateToProps = (state: RootState): IConnectedState => ({
+    user: state.user,
+});
+
+const mapDispatchToProps = {
+    removeUserDispatch: removeUser,
+    setUserDispatch: setUser,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);

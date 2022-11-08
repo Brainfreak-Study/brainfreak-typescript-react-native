@@ -2,53 +2,71 @@ import React from "react";
 import {
     Image,
     ImageProps,
-    Pressable,
     SafeAreaView,
     StyleSheet,
-    Text,
     TouchableOpacity,
-    Modal,
     View,
 } from "react-native";
-import { ImageOrVideo } from "react-native-image-crop-picker";
 import * as ImagePicker from "expo-image-picker";
 
-// import Modal from "react-native-modal";
-import ProfileIcon from "../../assets/images/icons/profile.svg";
+import Modal from "react-native-modal";
 import { PoppinsRegularText } from "../StyledText";
+import useColorScheme from "../../hooks/useColorScheme";
+import CloseIcon from "../icons/CloseIcon";
+import CameraIcon from "../icons/CameraIcon";
+import GalleryIcon from "../icons/GalleryIcon";
 
 interface AvatarProps extends ImageProps {
-    onChange?: (file: ImageOrVideo) => void;
+    onChange?: (file: any) => void;
 }
 
 export const Avatar = ({ style, ...props }: AvatarProps) => {
-    const [uri, setUri] = React.useState(undefined);
-    const [visible, setVisible] = React.useState(false);
+    const colorScheme = useColorScheme();
+    const [uri, setUri] = React.useState<string>("");
+    const [visible, setVisible] = React.useState<boolean>(false);
     const [image, setImage] = React.useState<any>(undefined);
     const close = () => setVisible(false);
     const open = () => setVisible(true);
+
     const chooseImage = async () => {
-        // No permissions request is necessary for launching the image library
         const result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
-            aspect: [4, 3],
+            aspect: [1, 1],
             quality: 1,
         });
-
-        console.log(result);
-
         if (!result.cancelled) {
-            setImage(result.uri);
+            setImage(result);
+            setUri(result.uri);
+            close();
         }
     };
 
-    const openCamera = () => {
-        // ImagePicker.openCamera({
-        //     width: 300,
-        //     height: 400,
-        //     cropping: true,
-        // });
+    const openCamera = async () => {
+        if (ImagePicker.PermissionStatus.UNDETERMINED) {
+            const { status } =
+                await ImagePicker.requestCameraPermissionsAsync();
+            if (status !== "granted") {
+                alert(
+                    "Sorry, we need camera roll permissions to make this work!"
+                );
+            }
+        }
+
+        if (ImagePicker.PermissionStatus.GRANTED) {
+            const result = await ImagePicker.launchCameraAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                allowsEditing: true,
+                aspect: [1, 1],
+                quality: 1,
+            });
+
+            if (!result.cancelled) {
+                setImage(result);
+                setUri(result.uri);
+                close();
+            }
+        }
     };
 
     return (
@@ -66,24 +84,82 @@ export const Avatar = ({ style, ...props }: AvatarProps) => {
                 </View>
             </TouchableOpacity>
             <Modal
-                visible={visible}
-                onRequestClose={close}
-                style={{ justifyContent: "flex-end", margin: 0, height: 100 }}
-                animationType="slide"
+                isVisible={visible}
+                onBackButtonPress={close}
+                onBackdropPress={close}
+                style={styles.modal}
             >
-                <SafeAreaView style={styles.options}>
-                    <Pressable style={styles.option} onPress={chooseImage}>
-                        <ProfileIcon width={24} height={24} />
-                        <Text>Library </Text>
-                    </Pressable>
-                    <Pressable style={styles.option} onPress={openCamera}>
-                        <ProfileIcon width={24} height={24} />
-                        <Text>Camera</Text>
-                    </Pressable>
+                <SafeAreaView>
+                    <View
+                        style={[
+                            styles.options,
+                            colorScheme === "dark"
+                                ? styles.optionsDark
+                                : styles.optionsLight,
+                            { width: "100%" },
+                        ]}
+                    >
+                        <TouchableOpacity
+                            onPress={chooseImage}
+                            style={[
+                                styles.option,
+                                colorScheme === "dark"
+                                    ? styles.optionDark
+                                    : styles.optionLight,
+                            ]}
+                        >
+                            <GalleryIcon color="#1e90ff" />
+                            <PoppinsRegularText style={styles.optionText}>
+                                Choose from Gallery
+                            </PoppinsRegularText>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={openCamera}
+                            style={[
+                                styles.option,
+                                colorScheme === "dark"
+                                    ? styles.optionDark
+                                    : styles.optionLight,
+                            ]}
+                        >
+                            <CameraIcon color="#1e90ff" />
+                            <PoppinsRegularText style={styles.optionText}>
+                                Open Camera
+                            </PoppinsRegularText>
+                        </TouchableOpacity>
+                    </View>
+                    <View
+                        style={[
+                            styles.options,
+                            colorScheme === "dark"
+                                ? styles.optionsDark
+                                : styles.optionsLight,
+                            { width: "100%" },
+                        ]}
+                    >
+                        <TouchableOpacity
+                            onPress={close}
+                            style={[
+                                styles.option,
+                                colorScheme === "dark"
+                                    ? styles.optionDark
+                                    : styles.optionLight,
+                            ]}
+                        >
+                            <CloseIcon
+                                width={24}
+                                height={24}
+                                color="red"
+                                style={[{ color: "red" }] as any}
+                            />
+                            <PoppinsRegularText
+                                style={[styles.optionText, { color: "red" }]}
+                            >
+                                Close
+                            </PoppinsRegularText>
+                        </TouchableOpacity>
+                    </View>
                 </SafeAreaView>
-                <Pressable onPress={() => setVisible(!visible)}>
-                    <Text>close</Text>
-                </Pressable>
             </Modal>
         </>
     );
@@ -102,16 +178,42 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
     },
-
+    modal: {
+        justifyContent: "flex-end",
+        margin: 0,
+    },
     options: {
         backgroundColor: "white",
-        flexDirection: "row",
-        borderTopRightRadius: 30,
-        borderTopLeftRadius: 30,
-    },
-    option: {
-        flex: 1,
         justifyContent: "center",
         alignItems: "center",
+        borderRadius: 4,
+        borderColor: "rgba(0, 0, 0, 0.1)",
+        padding: 10,
+    },
+    optionsDark: {
+        backgroundColor: "#000",
+    },
+    optionsLight: {
+        backgroundColor: "#fff",
+    },
+    option: {
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "row",
+        padding: 10,
+        borderRadius: 10,
+        marginVertical: 5,
+        width: "100%",
+    },
+    optionDark: {
+        backgroundColor: "rgba(255,255,255,0.1)",
+    },
+    optionLight: {
+        backgroundColor: "#ccc",
+    },
+
+    optionText: {
+        marginLeft: 10,
+        fontSize: 16,
     },
 });

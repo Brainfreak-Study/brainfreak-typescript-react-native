@@ -36,6 +36,7 @@ type ThemeProps = {
 
 export type TextProps = ThemeProps & DefaultText["props"];
 export type ViewProps = ThemeProps & DefaultView["props"];
+export type ScrollViewProps = ThemeProps & DefaultScrollView["props"];
 
 export function Text(props: TextProps) {
     const { style, lightColor, darkColor, ...otherProps } = props;
@@ -69,7 +70,7 @@ export function SafeAreaView(props: ViewProps) {
     );
 }
 
-export function ScrollView(props: ViewProps) {
+export function ScrollView(props: ScrollViewProps) {
     const { style, lightColor, darkColor, ...otherProps } = props;
     const backgroundColor = useThemeColor(
         { light: lightColor, dark: darkColor },
@@ -99,3 +100,11 @@ export function KeyboardAvoidingView(props: ViewProps) {
         />
     );
 }
+
+export const SafeAreaScrollView = (props: ViewProps) => {
+    return (
+        <SafeAreaView>
+            <ScrollView {...props} />
+        </SafeAreaView>
+    );
+};
