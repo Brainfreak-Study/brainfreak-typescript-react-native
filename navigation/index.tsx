@@ -18,6 +18,7 @@ import AddIcon from "../components/icons/AddIcon";
 import LiveIcon from "../components/icons/LiveIcon";
 import MessageIcon from "../components/icons/MessageIcon";
 import QuestionIcon from "../components/icons/QuestionIcon";
+import SearchIcon from "../components/icons/SearchIcon";
 import UserSquareIcon from "../components/icons/UserSquareIcon";
 import Colors from "../constants/Colors";
 import { BluePrimary25 } from "../constants/colorScheme";
@@ -34,6 +35,8 @@ import LiveScreen from "../screens/secured-screens/LiveScreen";
 import MessagesScreen from "../screens/secured-screens/MessagesScreen";
 import ProfileScreen from "../screens/secured-screens/ProfileScreen";
 import QuestionsScreen from "../screens/secured-screens/QuestionsScreen";
+import SearchScreen from "../screens/secured-screens/SearchScreen";
+import SettingsScreen from "../screens/secured-screens/SettingsScreen";
 
 import {
     RootStackParamList,
@@ -110,6 +113,17 @@ function SecuredStackNavigator() {
                 options={{ headerShown: false }}
             />
             <Stack.Screen
+                name="Messages"
+                component={MessagesScreen}
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name="Settings"
+                component={SettingsScreen}
+                options={{ title: "Settings" }}
+            />
+
+            <Stack.Screen
                 name="NotFound"
                 component={NotFoundScreen}
                 options={{ title: "Oops!" }}
@@ -132,7 +146,7 @@ function BottomTabNavigator() {
 
     return (
         <BottomTab.Navigator
-            initialRouteName="Login"
+            initialRouteName="Live"
             screenOptions={{
                 tabBarActiveTintColor: Colors[colorScheme].tint,
             }}
@@ -180,11 +194,11 @@ function BottomTabNavigator() {
                 })}
             />
             <BottomTab.Screen
-                name="Messages"
-                component={MessagesScreen}
-                options={({ navigation }: RootTabScreenProps<"Messages">) => ({
+                name="Search"
+                component={SearchScreen}
+                options={({ navigation }: RootTabScreenProps<"Search">) => ({
                     headerShown: false,
-                    tabBarIcon: ({ color }) => <MessageIcon color={color} />,
+                    tabBarIcon: ({ color }) => <SearchIcon color={color} />,
                 })}
             />
             <BottomTab.Screen

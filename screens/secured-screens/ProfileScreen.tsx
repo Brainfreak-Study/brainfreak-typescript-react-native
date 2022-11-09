@@ -25,10 +25,22 @@ import FollowingIcon from "../../components/icons/FollowingsIcon";
 import FollowersIcon from "../../components/icons/FollowersIcon";
 import Flex from "../../components/views/Flex";
 import useColorScheme from "../../hooks/useColorScheme";
+import MessageIcon from "../../components/icons/MessageIcon";
+import IconButton from "../../components/views/IconButton";
 
 const ProfileScreen = ({ navigation }: RootTabScreenProps<"Profile">) => {
     const dispatch = useAppDispatch();
     const colorScheme = useColorScheme();
+
+    // const percentage = -9999;
+
+    // if (percentage > 1000) {
+    //     console.log(">1000%");
+    // } else if (percentage < -1000) {
+    //     console.log("<1000%");
+    // } else {
+    //     console.log(percentage);
+    // }
 
     return (
         <SafeAreaScrollView>
@@ -115,42 +127,64 @@ const ProfileScreen = ({ navigation }: RootTabScreenProps<"Profile">) => {
                 <MenuItem
                     text="My Questions"
                     icon={
-                        <QuestionIcon
-                            color={colorScheme === "dark" ? "white" : "black"}
+                        <IconButton
+                            icon={QuestionIcon}
+                            color="#F806CC"
+                            iconColor="#fff"
                         />
                     }
                 />
                 <MenuItem
                     text="My Answers"
                     icon={
-                        <AnswerIcon
-                            color={colorScheme === "dark" ? "white" : "black"}
+                        <IconButton
+                            icon={AnswerIcon}
+                            color="#DC5F00"
+                            iconColor="#fff"
+                        />
+                    }
+                />
+                <MenuItem
+                    onPress={() => navigation.navigate("Messages")}
+                    text="My Messages"
+                    icon={
+                        <IconButton
+                            icon={MessageIcon}
+                            color="#B9005B"
+                            iconColor="#fff"
                         />
                     }
                 />
                 <MenuItem
                     text="My Stats"
                     icon={
-                        <EditProfileIcon
-                            color={colorScheme === "dark" ? "white" : "black"}
+                        <IconButton
+                            icon={EditProfileIcon}
+                            color="#24A19C"
+                            iconColor="#fff"
                         />
                     }
                 />
                 <MenuItem
                     text="My Notifications"
                     icon={
-                        <NotificationIcon
-                            color={colorScheme === "dark" ? "white" : "black"}
+                        <IconButton
+                            icon={NotificationIcon}
+                            color="#E04D01"
+                            iconColor="#fff"
                         />
                     }
                 />
                 <MenuItem
                     text="Settings"
                     icon={
-                        <SettingsIcon
-                            color={colorScheme === "dark" ? "white" : "black"}
+                        <IconButton
+                            icon={SettingsIcon}
+                            color="#2666CF"
+                            iconColor="#fff"
                         />
                     }
+                    onPress={() => navigation.navigate("Settings")}
                 />
             </MenuList>
         </SafeAreaScrollView>

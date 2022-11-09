@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ViewProps } from "react-native";
+import { View, ViewProps } from "react-native";
 import React from "react";
 
 interface IFlex extends ViewProps {

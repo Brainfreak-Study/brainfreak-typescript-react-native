@@ -7,20 +7,28 @@ import {
     Actions,
     Composer,
     Send,
+    InputToolbarProps,
+    ActionsProps,
+    ComposerProps,
+    SendProps,
 } from "react-native-gifted-chat";
+import SendIcon from "../icons/SendIcon";
+import { View } from "../Themed";
 
-export const renderInputToolbar = (props) => (
+export const renderInputToolbar = (props: InputToolbarProps<any>) => (
     <InputToolbar
         {...props}
         containerStyle={{
-            backgroundColor: "#222B45",
-            paddingTop: 6,
+            backgroundColor: "rgba(255,255,255,0.1)",
         }}
-        primaryStyle={{ alignItems: "center" }}
+        // primaryStyle={{
+        //     alignItems: "center",
+        //     paddingVertical: 6,
+        // }}
     />
 );
 
-export const renderActions = (props) => (
+export const renderActions = (props: ActionsProps) => (
     <Actions
         {...props}
         containerStyle={{
@@ -52,7 +60,7 @@ export const renderActions = (props) => (
     />
 );
 
-export const renderComposer = (props) => (
+export const renderComposer = (props: ComposerProps) => (
     <Composer
         {...props}
         textInputStyle={{
@@ -63,12 +71,11 @@ export const renderComposer = (props) => (
             borderColor: "#E4E9F2",
             paddingTop: 8.5,
             paddingHorizontal: 12,
-            marginLeft: 0,
         }}
     />
 );
 
-export const renderSend = (props) => (
+export const renderSend = (props: SendProps<any>) => (
     <Send
         {...props}
         disabled={!props.text}
@@ -80,11 +87,8 @@ export const renderSend = (props) => (
             marginHorizontal: 4,
         }}
     >
-        <Image
-            style={{ width: 32, height: 32 }}
-            source={{
-                uri: "https://placeimg.com/32/32/any",
-            }}
-        />
+        <View style={{ padding: 5, borderRadius: 10 }}>
+            <SendIcon color="white" />
+        </View>
     </Send>
 );

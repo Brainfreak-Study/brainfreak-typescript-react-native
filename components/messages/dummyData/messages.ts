@@ -1,40 +1,100 @@
-const messages = [
+export default [
     {
-        _id: 1,
-        text: "This is a system message",
-        createdAt: new Date(Date.UTC(2016, 5, 11, 17, 20, 0)),
-        system: true,
+        _id: 9,
+        text: "#awesome 3",
+        createdAt: new Date(),
+        user: {
+            _id: 1,
+            name: "Developer",
+        },
     },
     {
-        _id: 2,
-        text: "Hello developer",
-        createdAt: new Date(Date.UTC(2016, 5, 12, 17, 20, 0)),
+        _id: 8,
+        text: "#awesome 2",
+        createdAt: new Date(),
+        user: {
+            _id: 1,
+            name: "Developer",
+        },
+    },
+    {
+        _id: 7,
+        text: "#awesome",
+        createdAt: new Date(),
+        user: {
+            _id: 1,
+            name: "Developer",
+        },
+    },
+    {
+        _id: 6,
+        text: "Paris",
+        createdAt: new Date(),
         user: {
             _id: 2,
             name: "React Native",
-            avatar: "https://placeimg.com/140/140/any",
+        },
+        image: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Paris_-_Eiffelturm_und_Marsfeld2.jpg/280px-Paris_-_Eiffelturm_und_Marsfeld2.jpg",
+        sent: true,
+        received: true,
+    },
+    {
+        _id: 5,
+        text: "Send me a picture!",
+        createdAt: new Date(),
+        user: {
+            _id: 1,
+            name: "Developer",
+        },
+    },
+    {
+        _id: 4,
+        text: "",
+        createdAt: new Date(),
+        user: {
+            _id: 2,
+            name: "React Native",
+        },
+        sent: true,
+        received: true,
+        location: {
+            latitude: 48.864601,
+            longitude: 2.398704,
         },
     },
     {
         _id: 3,
-        text: "Hi! I work from home today!",
-        createdAt: new Date(Date.UTC(2016, 5, 13, 17, 20, 0)),
+        text: "Where are you?",
+        createdAt: new Date(),
         user: {
             _id: 1,
-            name: "React Native",
-            avatar: "https://placeimg.com/140/140/any",
+            name: "Developer",
         },
-        image: "https://placeimg.com/960/540/any",
     },
     {
-        _id: 4,
-        text: "This is a quick reply. Do you love Gifted Chat? (radio) KEEP IT",
-        createdAt: new Date(Date.UTC(2016, 5, 14, 17, 20, 0)),
+        _id: 2,
+        text: "Yes, and I use #GiftedChat!",
+        createdAt: new Date(),
         user: {
             _id: 2,
             name: "React Native",
-            avatar: "https://placeimg.com/140/140/any",
         },
+        sent: true,
+        received: true,
+    },
+    {
+        _id: 1,
+        text: "Are you building a chat app?",
+        createdAt: new Date(),
+        user: {
+            _id: 1,
+            name: "Developer",
+        },
+    },
+    {
+        _id: 10,
+        text: "This is a quick reply. Do you love Gifted Chat? (radio) KEEP IT",
+        createdAt: new Date(),
         quickReplies: {
             type: "radio", // or 'checkbox',
             keepIt: true,
@@ -44,7 +104,7 @@ const messages = [
                     value: "yes",
                 },
                 {
-                    title: "📷 Yes, let me show you with a picture!",
+                    title: "📷 Yes, let me show you with a picture! Again let me show you with a picture!",
                     value: "yes_picture",
                 },
                 {
@@ -53,18 +113,17 @@ const messages = [
                 },
             ],
         },
-    },
-    {
-        _id: 5,
-        text: "This is a quick reply. Do you love Gifted Chat? (checkbox)",
-        createdAt: new Date(Date.UTC(2016, 5, 15, 17, 20, 0)),
         user: {
             _id: 2,
             name: "React Native",
-            avatar: "https://placeimg.com/140/140/any",
         },
+    },
+    {
+        _id: 20,
+        text: "This is a quick reply. Do you love Gifted Chat? (checkbox)",
+        createdAt: new Date(),
         quickReplies: {
-            type: "checkbox", // or 'radio',
+            type: "checkbox", // or 'checkbox',
             values: [
                 {
                     title: "Yes",
@@ -80,30 +139,27 @@ const messages = [
                 },
             ],
         },
-    },
-    {
-        _id: 6,
-        text: "Come on!",
-        createdAt: new Date(Date.UTC(2016, 5, 15, 18, 20, 0)),
         user: {
             _id: 2,
             name: "React Native",
-            avatar: "https://placeimg.com/140/140/any",
         },
     },
     {
-        _id: 7,
-        text: `Hello this is an example of the ParsedText, links like http://www.google.com or http://www.facebook.com are clickable and phone number 444-555-6666 can call too.
-          But you can also do more with this package, for example Bob will change style and David too. foo@gmail.com
-          And the magic number is 42!
-          #react #react-native`,
-        createdAt: new Date(Date.UTC(2016, 5, 13, 17, 20, 0)),
+        _id: 30,
+        createdAt: new Date(),
+        video: "https://media.giphy.com/media/3o6ZthZjk09Xx4ktZ6/giphy.mp4",
         user: {
-            _id: 1,
+            _id: 2,
             name: "React Native",
-            avatar: "https://placeimg.com/140/140/any",
+        },
+    },
+    {
+        _id: 31,
+        createdAt: new Date(),
+        audio: "https://file-examples.com/wp-content/uploads/2017/11/file_example_MP3_700KB.mp3",
+        user: {
+            _id: 2,
+            name: "React Native",
         },
     },
 ];
-
-export default messages;

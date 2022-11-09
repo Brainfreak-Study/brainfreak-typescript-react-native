@@ -2,18 +2,11 @@ import { StyleSheet, TouchableOpacity, ViewProps } from "react-native";
 import React from "react";
 import {
     Black,
-    GrayDark,
     GrayExtraDark,
     GrayLight,
-    GrayLighter,
     White,
 } from "../../constants/colorScheme";
-import EditProfileIcon from "../icons/EditProfileIcon";
-import {
-    PoppinsBoldText,
-    PoppinsMediumText,
-    PoppinsRegularText,
-} from "../StyledText";
+import { PoppinsMediumText } from "../StyledText";
 import Flex from "../views/Flex";
 import ArrowRightIcon from "../icons/ArrowRightIcon";
 import useColorScheme from "../../hooks/useColorScheme";
@@ -22,12 +15,18 @@ interface MenuItemProps extends ViewProps {
     showArrow?: boolean;
     text: string;
     icon: React.ReactNode;
+    onPress?: () => void;
+    textColor?: string;
+    rightIconColor?: string;
 }
 
 const MenuItem = ({
     text,
     icon,
     showArrow = true,
+    onPress,
+    textColor,
+    rightIconColor,
     ...props
 }: MenuItemProps) => {
     const colorScheme = useColorScheme();
@@ -39,17 +38,29 @@ const MenuItem = ({
                     ? styles.menuItemDark
                     : styles.menuItemLight,
             ]}
+            onPress={onPress}
             {...props}
         >
             <Flex direction="row">
                 {icon}
-                <PoppinsMediumText style={styles.menuItemText}>
+                <PoppinsMediumText
+                    style={[
+                        styles.menuItemText,
+                        textColor ? { color: textColor } : undefined,
+                    ]}
+                >
                     {text}
                 </PoppinsMediumText>
             </Flex>
             {showArrow && (
                 <ArrowRightIcon
-                    color={colorScheme === "dark" ? White : Black}
+                    color={
+                        rightIconColor
+                            ? rightIconColor
+                            : colorScheme === "dark"
+                            ? White
+                            : Black
+                    }
                 />
             )}
         </TouchableOpacity>
@@ -76,5 +87,6 @@ const styles = StyleSheet.create({
     menuItemText: {
         fontSize: 14,
         marginLeft: 10,
+        alignSelf: "center",
     },
 });
