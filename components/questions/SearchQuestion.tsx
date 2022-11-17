@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, View, Image } from "react-native";
 import React from "react";
 import Flex from "../views/Flex";
 import {
@@ -6,21 +6,38 @@ import {
     PoppinsRegularText,
     PoppinsSemiBoldText,
 } from "../StyledText";
-import EyeIcon from "../icons/EyeIcon";
-import { BluePrimary50, Green } from "../../constants/colorScheme";
+import { BluePrimary50, darkPrimary, Green } from "../../constants/colorScheme";
+import useColorScheme from "../../hooks/useColorScheme";
 import { TruncateString } from "../../functions/TruncateString";
 
 interface Props {
     avatar: string;
-    question: string;
+    answers: number;
+    likes: number;
     name: string;
     username: string;
-    views: number;
+    question: string;
 }
 
-const LiveQuestion = ({ avatar, question, name, username, views }: Props) => {
+const SearchQuestion = ({
+    avatar,
+    answers,
+    likes,
+    name,
+    username,
+    question,
+}: Props) => {
+    const colorScheme = useColorScheme();
+
     return (
-        <Flex style={styles.container}>
+        <Flex
+            style={[
+                styles.container,
+                colorScheme === "dark"
+                    ? styles.containerDark
+                    : styles.containerLight,
+            ]}
+        >
             <Flex direction="row" align="center">
                 <Flex style={styles.userAvatar}>
                     <Image source={{ uri: avatar }} style={styles.avatar} />
@@ -33,39 +50,50 @@ const LiveQuestion = ({ avatar, question, name, username, views }: Props) => {
                     justify="space-between"
                 >
                     <View>
-                        <PoppinsMediumText>{name}</PoppinsMediumText>
+                        <PoppinsMediumText> {name} </PoppinsMediumText>
                         <PoppinsSemiBoldText style={{ color: BluePrimary50 }}>
                             @{username}
                         </PoppinsSemiBoldText>
                     </View>
-                    <Flex
+                    {/* <Flex
                         direction="row"
                         align="center"
                         style={styles.liveCount}
                     >
                         <EyeIcon color="#fff" />
                         <PoppinsRegularText style={styles.liveCountText}>
-                            {views}
+                            1.2k
                         </PoppinsRegularText>
-                    </Flex>
+                    </Flex> */}
                 </Flex>
             </Flex>
             <PoppinsRegularText style={styles.question}>
                 {TruncateString(question, 100)}
             </PoppinsRegularText>
+
+            <PoppinsSemiBoldText
+                style={{ color: Green, marginTop: 5, marginBottom: 5 }}
+            >
+                {answers > 1 ? `${answers} Answers` : `${answers} Answer`}·{" "}
+                {likes} Likes
+            </PoppinsSemiBoldText>
         </Flex>
     );
 };
 
-export default LiveQuestion;
+export default SearchQuestion;
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: "rgba(255, 255, 255, 0.1)",
         borderRadius: 10,
         padding: 10,
         marginBottom: 10,
-        flex: 1,
+    },
+    containerDark: {
+        backgroundColor: darkPrimary,
+    },
+    containerLight: {
+        backgroundColor: "#efefef",
     },
     userAvatar: {
         flexDirection: "row",

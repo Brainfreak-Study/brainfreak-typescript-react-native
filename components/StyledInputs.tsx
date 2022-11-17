@@ -1,10 +1,21 @@
 import { TextInput, TextInputProps } from "react-native";
+import { useThemeColor } from "./Themed";
 
-export function PoppinsRegularInput(props: TextInputProps) {
+type ThemeProps = {
+    lightColor?: string;
+    darkColor?: string;
+};
+
+type Props = TextInputProps & ThemeProps;
+
+export function PoppinsRegularInput(props: Props) {
+    const { style, lightColor, darkColor, ...otherProps } = props;
+    const color = useThemeColor({ light: lightColor, dark: darkColor }, "text");
     return (
         <TextInput
             {...props}
-            style={[props.style, { fontFamily: "poppins-regular" }]}
+            style={[{ fontFamily: "poppins-regular", color }, style]}
+            {...otherProps}
         />
     );
 }

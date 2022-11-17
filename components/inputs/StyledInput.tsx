@@ -10,8 +10,6 @@ import {
 import EyeIcon from "../icons/EyeIcon";
 import EyeSlashIcon from "../icons/EyeSlashIcon";
 import LockIcon from "../icons/LockIcon";
-
-//Icons Import
 import { PoppinsRegularText } from "../StyledText";
 
 interface InputProps extends TextInputProps {

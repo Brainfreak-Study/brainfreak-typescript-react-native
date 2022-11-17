@@ -4,8 +4,15 @@ import Flex from "../views/Flex";
 import { PoppinsMediumText, PoppinsSemiBoldText } from "../StyledText";
 import useColorScheme from "../../hooks/useColorScheme";
 import { GrayLighter } from "../../constants/colorScheme";
+import { TruncateString } from "../../functions/TruncateString";
 
-const TopUserGrid = () => {
+interface Props {
+    avatar: string;
+    name: string;
+    username: string;
+}
+
+const TopUserGrid = ({ avatar, name, username }: Props) => {
     const colorScheme = useColorScheme();
     return (
         <Flex
@@ -19,16 +26,13 @@ const TopUserGrid = () => {
                     : styles.containerLight,
             ]}
         >
-            <Image
-                source={require("../../assets/images/users/user.jpg")}
-                style={styles.avatar}
-            />
+            <Image source={{ uri: avatar }} style={styles.avatar} />
             <View style={styles.infoContainer}>
                 <PoppinsMediumText style={styles.name}>
-                    Eklavya Singh
+                    {TruncateString(name, 10)}
                 </PoppinsMediumText>
                 <PoppinsSemiBoldText style={styles.username}>
-                    @eklavya
+                    @{username}
                 </PoppinsSemiBoldText>
             </View>
         </Flex>

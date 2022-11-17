@@ -29,3 +29,11 @@ export const GrayExtraDark = "#1D1D1D";
 
 export const White = "#FFFFFF";
 export const Black = "#000000";
+
+export const darkPrimary = "#1D1D1D";
+export const darkSecondary = "#4D4D4D";
+export const darkTertiary = "#B1B1B1";
+
+export const lightPrimary = "#FFFFFF";
+export const lightSecondary = "#E5E5E5";
+export const lightTertiary = "#B1B1B1";

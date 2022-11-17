@@ -8,10 +8,12 @@ import {
 } from "../../components/StyledText";
 import { SafeAreaScrollView, ScrollView } from "../../components/Themed";
 import Flex from "../../components/views/Flex";
-import TopUserGrid from "../../components/top-users/TopUserGrid";
+import TopUserGrid from "../../components/users/TopUserGrid";
 import ArrowRightIcon from "../../components/icons/ArrowRightIcon";
 import useColorScheme from "../../hooks/useColorScheme";
 import LiveQuestion from "../../components/questions/LiveQuestion";
+import DummyQuestions from "../../dummy-data/DummyQuestions";
+import DummyUsers from "../../dummy-data/DummyUsers";
 
 const LiveScreen = ({ navigation }: RootTabScreenProps<"Live">) => {
     const colorScheme = useColorScheme();
@@ -42,8 +44,13 @@ const LiveScreen = ({ navigation }: RootTabScreenProps<"Live">) => {
                             : styles.topUserLight
                     }
                 >
-                    {Array.from(Array(10).keys()).map((i) => (
-                        <TopUserGrid key={i} />
+                    {DummyUsers.slice(0, 10).map((user) => (
+                        <TopUserGrid
+                            key={user._id}
+                            avatar={user.avatar}
+                            name={user.name}
+                            username={user.username}
+                        />
                     ))}
                 </ScrollView>
 
@@ -60,15 +67,21 @@ const LiveScreen = ({ navigation }: RootTabScreenProps<"Live">) => {
                     </Flex>
                 </TouchableOpacity>
             </Flex>
-            <Flex padding={20} style={styles.liveQuestions}>
+            <Flex padding={10} style={styles.liveQuestions}>
                 <PoppinsSemiBoldText style={styles.topUserText}>
                     Live Questions
                 </PoppinsSemiBoldText>
 
                 <View>
-                    {Array.from(Array(10).keys()).map((i) => (
-                        <TouchableOpacity key={i}>
-                            <LiveQuestion />
+                    {DummyQuestions.slice(0, 8).map((item) => (
+                        <TouchableOpacity key={item?._id}>
+                            <LiveQuestion
+                                avatar={item.avatar}
+                                name={item.name}
+                                username={item.username}
+                                question={item.question}
+                                views={item.likes}
+                            />
                         </TouchableOpacity>
                     ))}
                 </View>
