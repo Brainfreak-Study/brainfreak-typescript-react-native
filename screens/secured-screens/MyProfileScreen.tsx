@@ -2,17 +2,20 @@ import { Image, StyleSheet, View } from "react-native";
 import React from "react";
 import { RootTabScreenProps } from "../../types";
 import {
+    PoppinsBoldText,
     PoppinsItalicText,
     PoppinsMediumText,
     PoppinsRegularText,
     PoppinsSemiBoldText,
 } from "../../components/StyledText";
 import { useAppDispatch } from "../../redux/hooks";
-import { BlueSecondary100 } from "../../constants/colorScheme";
+import { BlueSecondary100, RedLight } from "../../constants/colorScheme";
 import { SafeAreaScrollView } from "../../components/Themed";
 import EditProfileIcon from "../../components/icons/EditProfileIcon";
 import MenuList from "../../components/menu/MenuList";
 import MenuItem from "../../components/menu/MenuItem";
+import NotificationIcon from "../../components/icons/NotificationIcon";
+import SettingsIcon from "../../components/icons/SettingsIcon";
 import QuestionIcon from "../../components/icons/QuestionIcon";
 import AnswerIcon from "../../components/icons/AnswerIcon";
 import CalendarIcon from "../../components/icons/CalendarIcon";
@@ -22,29 +25,36 @@ import FollowingIcon from "../../components/icons/FollowingsIcon";
 import FollowersIcon from "../../components/icons/FollowersIcon";
 import Flex from "../../components/views/Flex";
 import useColorScheme from "../../hooks/useColorScheme";
+import MessageIcon from "../../components/icons/MessageIcon";
 import IconButton from "../../components/views/IconButton";
-import { dateFormatter } from "../../functions/DateFormatter";
 
-const ProfileScreen = ({
-    navigation,
-    route,
-}: RootTabScreenProps<"Profile">) => {
+const MyProfileScreen = ({ navigation }: RootTabScreenProps<"MyProfile">) => {
     const dispatch = useAppDispatch();
     const colorScheme = useColorScheme();
+
+    // const percentage = -9999;
+
+    // if (percentage > 1000) {
+    //     console.log(">1000%");
+    // } else if (percentage < -1000) {
+    //     console.log("<1000%");
+    // } else {
+    //     console.log(percentage);
+    // }
 
     return (
         <SafeAreaScrollView>
             <View style={styles.header}>
                 <Image
-                    source={{ uri: route.params.avatar }}
+                    source={require("../../assets/images/users/user.jpg")}
                     style={styles.avatar}
                 />
                 <View style={styles.infoContainer}>
                     <PoppinsMediumText style={styles.name}>
-                        {route.params.name}
+                        Eklavya Singh
                     </PoppinsMediumText>
                     <PoppinsSemiBoldText style={styles.username}>
-                        @{route.params.username}
+                        @eklavya
                     </PoppinsSemiBoldText>
                     <View style={styles.date}>
                         <CalendarIcon
@@ -60,14 +70,16 @@ const ProfileScreen = ({
                                     : styles.dateTextLight,
                             ]}
                         >
-                            Joined {dateFormatter(route.params.createdAt)}
+                            Joined 1st Jan 2021
                         </PoppinsItalicText>
                     </View>
                 </View>
             </View>
 
             <PoppinsRegularText style={styles.bio}>
-                {route.params.description}
+                Lorem ipsum dolor sit amet, conse ctetur adip iscing elit. Sed
+                euis mod, nunc sit amet aliq uam lacinia, nisl nisl aliq uet
+                nunc, eget ali quam nisl nisl sit amet lorem.
             </PoppinsRegularText>
 
             <Flex
@@ -84,7 +96,7 @@ const ProfileScreen = ({
                             color={colorScheme === "dark" ? "white" : "black"}
                         />
                     }
-                    number={route.params.followers}
+                    number={946}
                     label="Followers"
                 />
                 <StatsItem
@@ -95,7 +107,7 @@ const ProfileScreen = ({
                             color={colorScheme === "dark" ? "white" : "black"}
                         />
                     }
-                    number={route.params.followings}
+                    number={19}
                     label="Following"
                 />
                 <StatsItem
@@ -106,14 +118,14 @@ const ProfileScreen = ({
                             color={colorScheme === "dark" ? "white" : "black"}
                         />
                     }
-                    number={route.params.points}
+                    number={3090}
                     label="Points"
                 />
             </Flex>
 
             <MenuList>
                 <MenuItem
-                    text="All Questions"
+                    text="My Questions"
                     icon={
                         <IconButton
                             icon={QuestionIcon}
@@ -123,7 +135,7 @@ const ProfileScreen = ({
                     }
                 />
                 <MenuItem
-                    text="All Answers"
+                    text="My Answers"
                     icon={
                         <IconButton
                             icon={AnswerIcon}
@@ -132,9 +144,19 @@ const ProfileScreen = ({
                         />
                     }
                 />
-
                 <MenuItem
-                    text="User Stats"
+                    onPress={() => navigation.navigate("Messages")}
+                    text="My Messages"
+                    icon={
+                        <IconButton
+                            icon={MessageIcon}
+                            color="#B9005B"
+                            iconColor="#fff"
+                        />
+                    }
+                />
+                <MenuItem
+                    text="My Stats"
                     icon={
                         <IconButton
                             icon={EditProfileIcon}
@@ -143,12 +165,33 @@ const ProfileScreen = ({
                         />
                     }
                 />
+                <MenuItem
+                    text="My Notifications"
+                    icon={
+                        <IconButton
+                            icon={NotificationIcon}
+                            color="#E04D01"
+                            iconColor="#fff"
+                        />
+                    }
+                />
+                <MenuItem
+                    text="Settings"
+                    icon={
+                        <IconButton
+                            icon={SettingsIcon}
+                            color="#2666CF"
+                            iconColor="#fff"
+                        />
+                    }
+                    onPress={() => navigation.navigate("Settings")}
+                />
             </MenuList>
         </SafeAreaScrollView>
     );
 };
 
-export default ProfileScreen;
+export default MyProfileScreen;
 
 const styles = StyleSheet.create({
     avatar: {

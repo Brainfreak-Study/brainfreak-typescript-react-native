@@ -1,23 +1,26 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
 import React from "react";
 import { RootTabScreenProps } from "../../types";
 import { SafeAreaScrollView } from "../../components/Themed";
-import Container from "../../components/views/Container";
 import DummyQuestions from "../../dummy-data/DummyQuestions";
 import CommunityQuestion from "../../components/questions/CommunityQuestion";
 
 const QuestionsScreen = ({ navigation }: RootTabScreenProps<"Questions">) => {
     return (
-        <SafeAreaScrollView style={{ flex: 1 }}>
+        <SafeAreaScrollView style={styles.container}>
             {DummyQuestions.map((question) => (
                 <CommunityQuestion
                     key={question._id}
-                    avatar={question.avatar}
-                    answers={question.answers}
+                    avatar={question.author.avatar}
+                    answers={question.answers.length}
                     likes={question.likes}
-                    name={question.name}
-                    username={question.username}
+                    name={question.author.name}
+                    username={question.author.username}
                     question={question.question}
+                    subject={question.subject}
+                    points={question.points}
+                    createdAt={question.createdAt}
+                    onPress={() => navigation.navigate("Question", question)}
                 />
             ))}
         </SafeAreaScrollView>
@@ -26,4 +29,9 @@ const QuestionsScreen = ({ navigation }: RootTabScreenProps<"Questions">) => {
 
 export default QuestionsScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        paddingHorizontal: 10,
+    },
+});

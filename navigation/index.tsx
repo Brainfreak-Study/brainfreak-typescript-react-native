@@ -33,10 +33,13 @@ import NotFoundScreen from "../screens/NotFoundScreen";
 import AskQuestion from "../screens/secured-screens/AskQuestionScreen";
 import LiveScreen from "../screens/secured-screens/LiveScreen";
 import MessagesScreen from "../screens/secured-screens/MessagesScreen";
+import MyProfileScreen from "../screens/secured-screens/MyProfileScreen";
 import ProfileScreen from "../screens/secured-screens/ProfileScreen";
+import QuestionScreen from "../screens/secured-screens/QuestionScreen";
 import QuestionsScreen from "../screens/secured-screens/QuestionsScreen";
 import SearchScreen from "../screens/secured-screens/SearchScreen";
 import SettingsScreen from "../screens/secured-screens/SettingsScreen";
+import TopUsersScreen from "../screens/secured-screens/TopUsersScreen";
 
 import {
     RootStackParamList,
@@ -122,6 +125,23 @@ function SecuredStackNavigator() {
                 component={SettingsScreen}
                 options={{ title: "Settings" }}
             />
+            <Stack.Screen
+                name="Question"
+                component={withSafeAreaProvider(QuestionScreen)}
+                options={({ route }: { route: any }) => ({
+                    title: `${route.params?.subject} • ${route.params?.points} Points`,
+                })}
+            />
+            <Stack.Screen
+                name="TopUsers"
+                component={TopUsersScreen}
+                options={{ title: "Top Users" }}
+            />
+            <Stack.Screen
+                name="Profile"
+                component={ProfileScreen}
+                options={{ headerShown: false }}
+            />
 
             <Stack.Screen
                 name="NotFound"
@@ -161,7 +181,7 @@ function BottomTabNavigator() {
             />
             <BottomTab.Screen
                 name="Questions"
-                component={QuestionsScreen}
+                component={withSafeAreaProvider(QuestionsScreen)}
                 options={({ navigation }: RootTabScreenProps<"Questions">) => ({
                     tabBarIcon: ({ color }) => <QuestionIcon color={color} />,
                     headerShown: false,
@@ -169,7 +189,7 @@ function BottomTabNavigator() {
             />
             <BottomTab.Screen
                 name="AskQuestion"
-                component={AskQuestion}
+                component={withSafeAreaProvider(AskQuestion)}
                 options={({
                     navigation,
                 }: RootTabScreenProps<"AskQuestion">) => ({
@@ -195,18 +215,19 @@ function BottomTabNavigator() {
             />
             <BottomTab.Screen
                 name="Search"
-                component={SearchScreen}
+                component={withSafeAreaProvider(SearchScreen)}
                 options={({ navigation }: RootTabScreenProps<"Search">) => ({
                     headerShown: false,
                     tabBarIcon: ({ color }) => <SearchIcon color={color} />,
                 })}
             />
             <BottomTab.Screen
-                name="Profile"
-                component={withSafeAreaProvider(ProfileScreen)}
-                options={({ navigation }: RootTabScreenProps<"Profile">) => ({
+                name="MyProfile"
+                component={withSafeAreaProvider(MyProfileScreen)}
+                options={({ navigation }: RootTabScreenProps<"MyProfile">) => ({
                     tabBarIcon: ({ color }) => <UserSquareIcon color={color} />,
                     headerShown: false,
+                    title: "Profile",
                 })}
             />
         </BottomTab.Navigator>

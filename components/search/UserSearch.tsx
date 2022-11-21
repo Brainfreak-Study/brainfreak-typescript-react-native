@@ -3,8 +3,10 @@ import React from "react";
 import SearchUsers from "../users/SearchUsers";
 import { ScrollView } from "../Themed";
 import SearchUsersData from "../../dummy-data/DummyUsers";
+import { useNavigation } from "@react-navigation/native";
 
 const UserSearch = () => {
+    const navigation = useNavigation();
     return (
         <ScrollView lightColor="#fff" darkColor="#000" style={styles.container}>
             {SearchUsersData.slice(10, 20).map((user) => (
@@ -13,6 +15,9 @@ const UserSearch = () => {
                     avatar={user.avatar}
                     name={user.name}
                     username={user.username}
+                    onPress={() => {
+                        navigation.navigate("Profile", user);
+                    }}
                 />
             ))}
             <View style={styles.footer}></View>

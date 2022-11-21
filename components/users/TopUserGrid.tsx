@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import Flex from "../views/Flex";
 import { PoppinsMediumText, PoppinsSemiBoldText } from "../StyledText";
@@ -10,32 +10,35 @@ interface Props {
     avatar: string;
     name: string;
     username: string;
+    onPress: () => void;
 }
 
-const TopUserGrid = ({ avatar, name, username }: Props) => {
+const TopUserGrid = ({ avatar, name, username, onPress }: Props) => {
     const colorScheme = useColorScheme();
     return (
-        <Flex
-            align="center"
-            justify="center"
-            padding={10}
-            style={[
-                styles.container,
-                colorScheme === "dark"
-                    ? styles.containerDark
-                    : styles.containerLight,
-            ]}
-        >
-            <Image source={{ uri: avatar }} style={styles.avatar} />
-            <View style={styles.infoContainer}>
-                <PoppinsMediumText style={styles.name}>
-                    {TruncateString(name, 10)}
-                </PoppinsMediumText>
-                <PoppinsSemiBoldText style={styles.username}>
-                    @{username}
-                </PoppinsSemiBoldText>
-            </View>
-        </Flex>
+        <TouchableOpacity onPress={onPress}>
+            <Flex
+                align="center"
+                justify="center"
+                padding={10}
+                style={[
+                    styles.container,
+                    colorScheme === "dark"
+                        ? styles.containerDark
+                        : styles.containerLight,
+                ]}
+            >
+                <Image source={{ uri: avatar }} style={styles.avatar} />
+                <View style={styles.infoContainer}>
+                    <PoppinsMediumText style={styles.name}>
+                        {TruncateString(name, 10)}
+                    </PoppinsMediumText>
+                    <PoppinsSemiBoldText style={styles.username}>
+                        @{username}
+                    </PoppinsSemiBoldText>
+                </View>
+            </Flex>
+        </TouchableOpacity>
     );
 };
 

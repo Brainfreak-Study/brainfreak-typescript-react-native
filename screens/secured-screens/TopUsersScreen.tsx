@@ -8,49 +8,38 @@ import UserSearch from "../../components/search/UserSearch";
 import SearchInput from "../../components/inputs/SearchInput";
 import { BluePrimary25 } from "../../constants/colorScheme";
 import useColorScheme from "../../hooks/useColorScheme";
+import Container from "../../components/views/Container";
 
-const SearchScreen = ({ navigation }: RootTabScreenProps<"Search">) => {
+const TopUsersScreen = ({ navigation }: RootTabScreenProps<"TopUsers">) => {
     const colorScheme = useColorScheme();
     const [index, setIndex] = React.useState(0);
     const [routes] = React.useState([
-        { key: "first", title: "Questions" },
-        { key: "second", title: "Users" },
+        { key: "first", title: "Daily" },
+        { key: "second", title: "Monthly" },
+        { key: "third", title: "Yearly" },
     ]);
 
-    const [search, setSearch] = React.useState<string>("");
-
     return (
-        <SafeAreaView>
-            <View style={styles.searchBar}>
-                <SearchInput
-                    placeholder={`Search ${routes[index].title}`}
-                    onChangeText={(text) => setSearch(text)}
-                    value={search}
-                    onClear={() => setSearch("")}
-                />
-            </View>
+        <Container style={{ flex: 1 }}>
             <TabView
                 navigationState={{ index, routes }}
                 renderScene={SceneMap({
-                    first: QuestionSearch,
+                    first: UserSearch,
                     second: UserSearch,
+                    third: UserSearch,
                 })}
                 onIndexChange={(index) => setIndex(index)}
                 initialLayout={{ width: Dimensions.get("window").width }}
                 renderTabBar={(props) => renderTabBar(colorScheme, props)}
                 sceneContainerStyle={{ overflow: "visible" }}
             />
-        </SafeAreaView>
+        </Container>
     );
 };
 
-export default SearchScreen;
+export default TopUsersScreen;
 
-const styles = StyleSheet.create({
-    searchBar: {
-        padding: 10,
-    },
-});
+const styles = StyleSheet.create({});
 
 const renderTabBar = (theme: string, props: TabBarProps<any>) => (
     <TabBar

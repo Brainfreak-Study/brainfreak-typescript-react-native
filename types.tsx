@@ -9,6 +9,8 @@ import {
     NavigatorScreenParams,
 } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import DummyQuestions from "./dummy-data/DummyQuestions";
+import DummyUsers from "./dummy-data/DummyUsers";
 
 declare global {
     namespace ReactNavigation {
@@ -29,6 +31,9 @@ export type RootStackParamList = {
     AskQuestion: undefined;
     Messages: undefined;
     Settings: undefined;
+    Question: typeof DummyQuestions[0];
+    TopUsers: undefined;
+    Profile: typeof DummyUsers[0];
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> =
@@ -40,12 +45,15 @@ export type RootTabParamList = {
     Live: undefined;
     Questions: undefined;
     Messages: undefined;
-    Profile: undefined;
+    MyProfile: undefined;
     VerifyEmail: undefined;
     CreateAccount: undefined;
     AskQuestion: undefined;
     Search: undefined;
     Settings: undefined;
+    Question: { _id: string; subject: string; points: number };
+    TopUsers: undefined;
+    Profile: typeof DummyUsers[0];
 };
 
 export type RootTabScreenProps<Screen extends keyof RootTabParamList> =

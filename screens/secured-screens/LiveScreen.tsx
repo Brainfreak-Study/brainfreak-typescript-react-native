@@ -50,11 +50,15 @@ const LiveScreen = ({ navigation }: RootTabScreenProps<"Live">) => {
                             avatar={user.avatar}
                             name={user.name}
                             username={user.username}
+                            onPress={() => navigation.navigate("Profile", user)}
                         />
                     ))}
                 </ScrollView>
 
-                <TouchableOpacity style={styles.seeAllButton}>
+                <TouchableOpacity
+                    style={styles.seeAllButton}
+                    onPress={() => navigation.navigate("TopUsers")}
+                >
                     <Flex direction="row" align="center" justify="center">
                         <PoppinsRegularText style={styles.seeAll}>
                             See All
@@ -74,11 +78,16 @@ const LiveScreen = ({ navigation }: RootTabScreenProps<"Live">) => {
 
                 <View>
                     {DummyQuestions.slice(0, 8).map((item) => (
-                        <TouchableOpacity key={item?._id}>
+                        <TouchableOpacity
+                            key={item?._id}
+                            onPress={() =>
+                                navigation.navigate("Question", item)
+                            }
+                        >
                             <LiveQuestion
-                                avatar={item.avatar}
-                                name={item.name}
-                                username={item.username}
+                                avatar={item.author.avatar}
+                                name={item.author.name}
+                                username={item.author.username}
                                 question={item.question}
                                 views={item.likes}
                             />

@@ -1,0 +1,33 @@
+RANDOM JSON GENRATOR
+
+Web: https://json-generator.com/#
+
+[
+  '{{repeat(20, 20)}}',
+  {
+    _id: '{{objectId()}}',
+    author:{
+        name: '{{firstName()}} {{surname()}}',
+        username: '{{firstName().toLowerCase()}}',
+        avatar: 'https://avatars.dicebear.com/api/human/{{firstName()}}.png'
+      },
+    likes: '{{integer(5, 999)}}',
+    question: '{{lorem(1, "paragraphs")}}',
+    subject:'{{random("Physics","Chemistry","Maths","Biology","Arts","Hindi","English")}}',
+     createdAt: '{{date(new Date(2022, 0, 1), new Date(), "YYYY-MM-ddThh:mm:ss")}}',
+    points: '{{integer(10, 100)}}',
+        answers: ['{{repeat(0, 3)}}',{
+           _id: '{{objectId()}}',
+      author:{
+        name: '{{firstName()}} {{surname()}}',
+        username: '{{firstName().toLowerCase()}}',
+        avatar: 'https://avatars.dicebear.com/api/human/{{firstName()}}.png'
+      },
+      answer:'{{lorem(1, "paragraphs")}}',
+      likes:'{{integer(5, 999)}}',
+          createdAt: '{{date(new Date(2022, 0, 1), new Date(), "YYYY-MM-ddThh:mm:ss")}}'
+      
+    }]
+  
+  }
+]

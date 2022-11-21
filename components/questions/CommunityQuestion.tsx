@@ -6,10 +6,16 @@ import {
     PoppinsRegularText,
     PoppinsSemiBoldText,
 } from "../StyledText";
-import { BluePrimary50, darkPrimary, Green } from "../../constants/colorScheme";
+import {
+    BluePrimary50,
+    darkPrimary,
+    Gray,
+    Green,
+} from "../../constants/colorScheme";
 import useColorScheme from "../../hooks/useColorScheme";
 import { TruncateString } from "../../functions/TruncateString";
 import Button from "../buttons/Button";
+import { timeAgo } from "../../functions/TimeAgo";
 
 interface Props {
     avatar: string;
@@ -18,6 +24,10 @@ interface Props {
     name: string;
     username: string;
     question: string;
+    subject: string;
+    points: number;
+    createdAt: string;
+    onPress: () => void;
 }
 
 const CommunityQuestion = ({
@@ -27,6 +37,10 @@ const CommunityQuestion = ({
     name,
     username,
     question,
+    subject,
+    points,
+    createdAt,
+    onPress,
 }: Props) => {
     const colorScheme = useColorScheme();
 
@@ -39,6 +53,11 @@ const CommunityQuestion = ({
                     : styles.containerLight,
             ]}
         >
+            <Flex style={styles.subjectDetails}>
+                <PoppinsRegularText style={styles.details}>
+                    {subject} • {points} Points • {timeAgo(createdAt)}
+                </PoppinsRegularText>
+            </Flex>
             <Flex direction="row" align="center">
                 <Flex style={styles.userAvatar}>
                     <Image source={{ uri: avatar }} style={styles.avatar} />
@@ -79,7 +98,11 @@ const CommunityQuestion = ({
                     {answers > 1 ? `${answers} Answers` : `${answers} Answer`}·{" "}
                     {likes} Likes
                 </PoppinsSemiBoldText>
-                <Button text="Give Answer" style={styles.giveAnswerButton} />
+                <Button
+                    text="Give Answer"
+                    style={styles.giveAnswerButton}
+                    onPress={onPress}
+                />
             </Flex>
         </Flex>
     );
@@ -130,5 +153,13 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 15,
         paddingVertical: 5,
+    },
+    subjectDetails: {
+        paddingVertical: 5,
+    },
+
+    details: {
+        fontSize: 12,
+        color: Gray,
     },
 });

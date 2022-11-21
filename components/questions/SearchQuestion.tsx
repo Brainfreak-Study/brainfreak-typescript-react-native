@@ -1,4 +1,4 @@
-import { StyleSheet, View, Image } from "react-native";
+import { StyleSheet, View, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import Flex from "../views/Flex";
 import {
@@ -6,9 +6,16 @@ import {
     PoppinsRegularText,
     PoppinsSemiBoldText,
 } from "../StyledText";
-import { BluePrimary50, darkPrimary, Green } from "../../constants/colorScheme";
+import {
+    BluePrimary50,
+    darkPrimary,
+    Gray,
+    Green,
+} from "../../constants/colorScheme";
 import useColorScheme from "../../hooks/useColorScheme";
 import { TruncateString } from "../../functions/TruncateString";
+import { Text } from "../Themed";
+import { timeAgo } from "../../functions/TimeAgo";
 
 interface Props {
     avatar: string;
@@ -17,6 +24,10 @@ interface Props {
     name: string;
     username: string;
     question: string;
+    subject: string;
+    points: number;
+    createdAt: string;
+    onPress: () => void;
 }
 
 const SearchQuestion = ({
@@ -26,58 +37,56 @@ const SearchQuestion = ({
     name,
     username,
     question,
+    subject,
+    points,
+    createdAt,
+    onPress,
 }: Props) => {
     const colorScheme = useColorScheme();
 
     return (
-        <Flex
-            style={[
-                styles.container,
-                colorScheme === "dark"
-                    ? styles.containerDark
-                    : styles.containerLight,
-            ]}
-        >
-            <Flex direction="row" align="center">
-                <Flex style={styles.userAvatar}>
-                    <Image source={{ uri: avatar }} style={styles.avatar} />
-                </Flex>
-
-                <Flex
-                    flex={1}
-                    direction="row"
-                    align="center"
-                    justify="space-between"
-                >
-                    <View>
-                        <PoppinsMediumText> {name} </PoppinsMediumText>
-                        <PoppinsSemiBoldText style={{ color: BluePrimary50 }}>
-                            @{username}
-                        </PoppinsSemiBoldText>
-                    </View>
-                    {/* <Flex
-                        direction="row"
-                        align="center"
-                        style={styles.liveCount}
-                    >
-                        <EyeIcon color="#fff" />
-                        <PoppinsRegularText style={styles.liveCountText}>
-                            1.2k
-                        </PoppinsRegularText>
-                    </Flex> */}
-                </Flex>
-            </Flex>
-            <PoppinsRegularText style={styles.question}>
-                {TruncateString(question, 100)}
-            </PoppinsRegularText>
-
-            <PoppinsSemiBoldText
-                style={{ color: Green, marginTop: 5, marginBottom: 5 }}
+        <TouchableOpacity onPress={onPress}>
+            <Flex
+                style={[
+                    styles.container,
+                    colorScheme === "dark"
+                        ? styles.containerDark
+                        : styles.containerLight,
+                ]}
             >
-                {answers > 1 ? `${answers} Answers` : `${answers} Answer`}·{" "}
-                {likes} Likes
-            </PoppinsSemiBoldText>
-        </Flex>
+                <Flex style={styles.subjectDetails}>
+                    <PoppinsRegularText style={styles.details}>
+                        {subject} • {points} Points • {timeAgo(createdAt)}
+                    </PoppinsRegularText>
+                </Flex>
+                <Flex direction="row" align="center">
+                    <Flex style={styles.userAvatar}>
+                        <Image source={{ uri: avatar }} style={styles.avatar} />
+                    </Flex>
+
+                    <Flex flex={1} direction="row" align="center">
+                        <View>
+                            <PoppinsMediumText> {name} </PoppinsMediumText>
+                            <PoppinsSemiBoldText
+                                style={{ color: BluePrimary50 }}
+                            >
+                                @{username}
+                            </PoppinsSemiBoldText>
+                        </View>
+                    </Flex>
+                </Flex>
+                <PoppinsRegularText style={styles.question}>
+                    {TruncateString(question, 100)}
+                </PoppinsRegularText>
+
+                <PoppinsSemiBoldText
+                    style={{ color: Green, marginTop: 5, marginBottom: 5 }}
+                >
+                    {answers > 1 ? `${answers} Answers` : `${answers} Answer`}·{" "}
+                    {likes} Likes
+                </PoppinsSemiBoldText>
+            </Flex>
+        </TouchableOpacity>
     );
 };
 
@@ -110,14 +119,17 @@ const styles = StyleSheet.create({
         marginTop: 5,
         fontSize: 14,
     },
-    liveCount: {
-        backgroundColor: Green,
-        borderRadius: 5,
-        padding: 5,
-        marginLeft: 5,
+    subjectDetails: {
+        // marginLeft: 5,
+        // borderLeftWidth: 1,
+        // paddingLeft: 10,
+        // borderColor: Gray,
+
+        paddingVertical: 5,
     },
-    liveCountText: {
-        color: "#fff",
-        marginLeft: 5,
+
+    details: {
+        fontSize: 12,
+        color: Gray,
     },
 });

@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import Flex from "../views/Flex";
 import { PoppinsMediumText, PoppinsSemiBoldText } from "../StyledText";
@@ -13,39 +13,42 @@ interface Props {
     avatar: string;
     name: string;
     username: string;
+    onPress: () => void;
 }
 
-const SearchUsers = ({ avatar, name, username }: Props) => {
+const SearchUsers = ({ avatar, name, username, onPress }: Props) => {
     const colorScheme = useColorScheme();
     return (
-        <Flex
-            direction="row"
-            align="center"
-            justify="space-between"
-            style={[
-                styles.container,
-                colorScheme === "dark"
-                    ? styles.containerDark
-                    : styles.containerLight,
-            ]}
-        >
-            <Flex direction="row" align="center">
-                <Image source={{ uri: avatar }} style={styles.avatar} />
-                <View style={styles.infoContainer}>
-                    <PoppinsMediumText style={styles.name}>
-                        {name}
+        <TouchableOpacity onPress={onPress}>
+            <Flex
+                direction="row"
+                align="center"
+                justify="space-between"
+                style={[
+                    styles.container,
+                    colorScheme === "dark"
+                        ? styles.containerDark
+                        : styles.containerLight,
+                ]}
+            >
+                <Flex direction="row" align="center">
+                    <Image source={{ uri: avatar }} style={styles.avatar} />
+                    <View style={styles.infoContainer}>
+                        <PoppinsMediumText style={styles.name}>
+                            {name}
+                        </PoppinsMediumText>
+                        <PoppinsSemiBoldText style={styles.username}>
+                            @{username}
+                        </PoppinsSemiBoldText>
+                    </View>
+                </Flex>
+                <View style={styles.viewProfile}>
+                    <PoppinsMediumText style={styles.viewProfileText}>
+                        View Profile
                     </PoppinsMediumText>
-                    <PoppinsSemiBoldText style={styles.username}>
-                        @{username}
-                    </PoppinsSemiBoldText>
                 </View>
             </Flex>
-            <View style={styles.viewProfile}>
-                <PoppinsMediumText style={styles.viewProfileText}>
-                    View Profile
-                </PoppinsMediumText>
-            </View>
-        </Flex>
+        </TouchableOpacity>
     );
 };
 
