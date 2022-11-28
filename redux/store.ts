@@ -2,41 +2,36 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import userSlice from "./slices/user";
 import {
-    FLUSH,
-    PAUSE,
-    PERSIST,
-    persistReducer,
-    persistStore,
-    PURGE,
-    REGISTER,
-    REHYDRATE,
+  FLUSH,
+  PAUSE,
+  PERSIST,
+  persistReducer,
+  persistStore,
+  PURGE,
+  REGISTER,
+  REHYDRATE,
 } from "redux-persist";
+import settingsSlice from "./slices/settings";
 //persist redux store
 const persistConfig = {
-    key: "root",
-    storage: AsyncStorage,
-    rehydrate: true,
+  key: "root",
+  storage: AsyncStorage,
+  rehydrate: true,
 };
 
 const rootReducer = combineReducers({
-    user: userSlice,
+  user: userSlice,
+  settings: settingsSlice,
 });
 
 export const store = configureStore({
-    reducer: persistReducer(persistConfig, rootReducer),
-    middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware({
-            serializableCheck: {
-                ignoredActions: [
-                    FLUSH,
-                    REHYDRATE,
-                    PAUSE,
-                    PERSIST,
-                    PURGE,
-                    REGISTER,
-                ],
-            },
-        }),
+  reducer: persistReducer(persistConfig, rootReducer),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
 });
 
 export const persistor = persistStore(store);

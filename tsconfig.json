@@ -1,13 +1,25 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "strict": true
+    "strict": true,
+    "paths": {
+      "@components/*": ["./components/*"],
+      "@screens/*": ["./screens/*"],
+      "@utils/*": ["./utils/*"],
+      "@hooks/*": ["./hooks/*"],
+      "@assets/*": ["./assets/*"],
+      "@constants/*": ["./constants/*"],
+      "@types/*": ["./types/*"],
+      "@navigation/*": ["./navigation/*"],
+      "@redux/*": ["./redux/*"],
+      "@services/*": ["./services/*"],
+      "@network/*": ["./networkAPI/*"],
+    }
   },
   "include": [
     //allow svg files
     "./custom.d.ts",
     "**/*.ts", "**/*.tsx"
-
   ]
 }
  
